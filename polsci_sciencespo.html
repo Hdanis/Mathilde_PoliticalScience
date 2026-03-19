@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to Political Science — Sciences Po ERAM · Revision Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f0e0c;
+  --paper: #f5f0e8;
+  --accent: #c0392b;
+  --blue: #1a5276;
+  --green: #1e6e42;
+  --gold: #b7950b;
+  --purple: #6c3483;
+  --muted: #7a7060;
+  --rule: #d4cfc5;
+  --hi: #fdf3d0;
+  --white: #ffffff;
+  --warn-bg: #fef9f3;
+  --quote-bg: #f0f4f8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; min-height: 100vh; }
+.shell { display: flex; min-height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar { width: 220px; min-width: 220px; background: var(--ink); color: var(--paper); display: flex; flex-direction: column; padding: 1.5rem 0 2rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+.sidebar-logo { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; padding: 0 1.2rem 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.1); line-height: 1.3; }
+.sidebar-logo span { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; font-weight: 400; opacity: 0.5; margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.sidebar-section { padding: 1rem 1.2rem 0.3rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.4; }
+.course-btn { display: block; width: 100%; text-align: left; background: none; border: none; color: inherit; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.82rem; font-weight: 300; padding: 0.5rem 1.2rem; cursor: pointer; border-left: 3px solid transparent; transition: all 0.15s; line-height: 1.3; }
+.course-btn:hover { background: rgba(255,255,255,0.06); }
+.course-btn.active { border-left-color: var(--accent); background: rgba(255,255,255,0.08); font-weight: 500; }
+.course-btn .cnum { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; opacity: 0.45; margin-bottom: 0.1rem; }
+
+/* ── MAIN ── */
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.course-header { border-bottom: 1px solid var(--rule); padding: 1.4rem 2rem 1rem; background: var(--white); display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.8rem; }
+.course-header h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; line-height: 1.15; }
+.course-header .meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.3rem; }
+.badge { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; background: var(--accent); color: white; padding: 0.25rem 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 2px; }
+
+/* ── TABS ── */
+.sec-tabs { display: flex; border-bottom: 2px solid var(--rule); padding: 0 2rem; background: var(--white); overflow-x: auto; gap: 0; }
+.sec-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.07em; padding: 0.7rem 1rem; background: none; border: none; cursor: pointer; color: var(--muted); white-space: nowrap; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
+.sec-btn:hover { color: var(--ink); }
+.sec-btn.active { color: var(--ink); border-bottom-color: var(--accent); font-weight: 500; }
+
+/* ── CONTENT ── */
+.content { padding: 1.8rem 2rem 4rem; max-width: 900px; }
+.section { display: none; }
+.section.active { display: block; }
+.sec-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--rule); display: flex; align-items: baseline; gap: 0.7rem; }
+.sec-title .num { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--accent); font-weight: 400; letter-spacing: 0.1em; }
+
+/* ── BLOCKS ── */
+.block { border-left: 3px solid var(--rule); padding: 0.9rem 1.1rem; margin-bottom: 1.1rem; background: white; }
+.block.red   { border-left-color: var(--accent); }
+.block.blue  { border-left-color: var(--blue); }
+.block.green { border-left-color: var(--green); }
+.block.gold  { border-left-color: var(--gold); background: var(--hi); }
+.block.purple { border-left-color: var(--purple); background: #f8f4fc; }
+.block.warn  { border-left-color: #e67e22; background: var(--warn-bg); }
+.block-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.55rem; }
+
+/* ── TL;DR SPECIFIC ── */
+.tldr-pitch { background: var(--ink); color: var(--paper); padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; border-radius: 2px; }
+.tldr-pitch .pitch-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.6rem; }
+.tldr-pitch p { font-size: 0.95rem; line-height: 1.7; font-weight: 300; }
+.tldr-pitch strong { font-weight: 600; color: #f5f0e8; }
+
+.summary-section { margin-bottom: 1.6rem; }
+.summary-section h3 { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue); margin-bottom: 0.6rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--rule); }
+.summary-section p { font-size: 0.88rem; line-height: 1.65; margin-bottom: 0.6rem; color: var(--ink); }
+.summary-section p:last-child { margin-bottom: 0; }
+.summary-section strong { font-weight: 500; }
+.summary-section em { color: var(--muted); font-style: italic; }
+
+.wordcount { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); text-align: right; margin-top: 1rem; padding-top: 0.5rem; border-top: 1px dashed var(--rule); }
+
+/* ── KEY DEFINITIONS ── */
+.def-block { border: 1px solid var(--rule); margin-bottom: 1rem; background: white; overflow: hidden; }
+.def-header { background: var(--ink); color: white; padding: 0.5rem 0.9rem; display: flex; justify-content: space-between; align-items: center; }
+.def-term { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; }
+.def-author { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; opacity: 0.65; }
+.def-quote { background: var(--quote-bg); border-left: 3px solid var(--blue); padding: 0.8rem 1rem; font-size: 0.87rem; line-height: 1.6; font-style: italic; color: var(--ink); }
+.def-quote::before { content: '"'; font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--blue); line-height: 0; vertical-align: -0.3em; margin-right: 0.2rem; }
+.def-plain { padding: 0.7rem 1rem; font-size: 0.83rem; line-height: 1.55; color: var(--muted); border-top: 1px dashed var(--rule); }
+.def-plain strong { color: var(--ink); font-weight: 500; }
+.def-source { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--accent); padding: 0.3rem 1rem 0.5rem; background: white; }
+
+/* ── KEY AUTHORS ── */
+.author-row { display: grid; grid-template-columns: 160px 1fr; border-bottom: 1px solid var(--rule); padding: 0.7rem 0; gap: 1rem; align-items: start; }
+.author-row:last-child { border-bottom: none; }
+.author-name { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; font-weight: 500; color: var(--accent); }
+.author-year { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; color: var(--muted); display: block; margin-top: 0.1rem; }
+.author-info { font-size: 0.85rem; line-height: 1.5; }
+.author-thesis { font-weight: 500; color: var(--ink); display: block; margin-bottom: 0.2rem; }
+.author-debate { font-size: 0.78rem; color: var(--muted); font-style: italic; }
+
+/* ── THEORETICAL DEBATES ── */
+.debate-block { border: 1px solid var(--rule); margin-bottom: 1.2rem; overflow: hidden; background: white; }
+.debate-title { background: var(--blue); color: white; padding: 0.55rem 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.debate-camps { display: grid; grid-template-columns: 1fr 1fr; }
+.debate-camp { padding: 0.8rem 1rem; font-size: 0.84rem; line-height: 1.5; }
+.debate-camp:first-child { border-right: 1px solid var(--rule); }
+.debate-camp-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.3rem; }
+.debate-reveals { background: var(--hi); padding: 0.6rem 1rem; font-size: 0.82rem; border-top: 1px solid var(--rule); }
+.debate-reveals strong { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold); display: block; margin-bottom: 0.2rem; }
+
+/* ── EXAMPLES BANK ── */
+.example-concept { margin-bottom: 1.4rem; }
+.example-concept-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink); background: var(--paper); padding: 0.4rem 0.8rem; border: 1px solid var(--rule); margin-bottom: 0; }
+.example-row { display: grid; grid-template-columns: 28px 1fr; gap: 0.6rem; padding: 0.6rem 0.8rem; border: 1px solid var(--rule); border-top: none; align-items: start; font-size: 0.84rem; line-height: 1.5; }
+.example-row + .example-row { border-top: 1px dashed var(--rule); }
+.example-icon { font-size: 1rem; padding-top: 0.05rem; }
+.example-text strong { font-weight: 500; color: var(--ink); }
+.example-text span { color: var(--muted); font-size: 0.78rem; font-style: italic; display: block; margin-top: 0.15rem; }
+
+/* ── DISSERTATION TOOLKIT ── */
+.toolkit-block { background: white; border: 1px solid var(--rule); margin-bottom: 1.2rem; overflow: hidden; }
+.toolkit-header { background: var(--gold); color: white; padding: 0.5rem 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.09em; }
+.toolkit-body { padding: 0.9rem 1rem; font-size: 0.86rem; line-height: 1.65; }
+.toolkit-body p { margin-bottom: 0.5rem; }
+.toolkit-body p:last-child { margin-bottom: 0; }
+.toolkit-body strong { font-weight: 500; color: var(--blue); }
+.toolkit-formula { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; background: var(--quote-bg); border-left: 3px solid var(--gold); padding: 0.5rem 0.8rem; margin: 0.5rem 0; }
+.toolkit-example { font-style: italic; color: var(--muted); font-size: 0.81rem; background: var(--hi); padding: 0.4rem 0.8rem; border-left: 3px solid var(--rule); margin: 0.4rem 0; }
+.connector-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-top: 0.5rem; }
+.connector-item { font-size: 0.8rem; padding: 0.3rem 0.5rem; background: var(--paper); border: 1px solid var(--rule); }
+.connector-item strong { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--blue); }
+
+/* ── DON'T CONFUSE ── */
+.pair-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.9rem; padding-bottom: 0.9rem; border-bottom: 1px dashed var(--rule); }
+.pair-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.pair-card { padding: 0.6rem 0.8rem; border: 1px solid var(--rule); background: white; }
+.pair-card .term { font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; font-weight: 500; display: block; margin-bottom: 0.25rem; }
+.pair-card .def { font-size: 0.8rem; color: var(--muted); line-height: 1.35; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .sidebar { width: 100%; height: auto; position: static; flex-direction: row; flex-wrap: wrap; padding: 0.8rem; }
+  .shell { flex-direction: column; }
+  .debate-camps { grid-template-columns: 1fr; }
+  .pair-row { grid-template-columns: 1fr; }
+  .content { padding: 1rem; }
+  .sec-tabs { padding: 0 1rem; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    Political Science<br>Sciences Po
+    <span>ERAM · Revision Tool</span>
+  </div>
+  <div class="sidebar-section">Classes</div>
+  <button class="course-btn active" onclick="showCourse('c1')">
+    <span class="cnum">Class 1</span>The Science of Politics
+  </button>
+  <button class="course-btn" onclick="showCourse('c2')">
+    <span class="cnum">Class 2</span>Power
+  </button>
+  <button class="course-btn" onclick="showCourse('c3')">
+    <span class="cnum">Class 3</span>Ideas
+  </button>
+  <button class="course-btn" onclick="showCourse('c4')">
+    <span class="cnum">Class 4</span>Institutions
+  </button>
+  <button class="course-btn" onclick="showCourse('c5')">
+    <span class="cnum">Class 5</span>Competition
+  </button>
+</nav>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════ CLASS 1 ══ -->
+<div id="course-c1" style="display:block;">
+  <div class="course-header">
+    <div><div class="meta">Class 1 · Introduction to Political Science</div><h1>The Science of Politics</h1></div>
+    <div class="badge">Cyril Benoit</div>
+  </div>
+  <div class="sec-tabs">
+    <button class="sec-btn active" onclick="showSec('c1','tldr')">Executive TL;DR</button>
+    <button class="sec-btn" onclick="showSec('c1','defs')">Key Definitions</button>
+    <button class="sec-btn" onclick="showSec('c1','authors')">Key Authors</button>
+    <button class="sec-btn" onclick="showSec('c1','debates')">Theoretical Debates</button>
+    <button class="sec-btn" onclick="showSec('c1','examples')">Examples Bank</button>
+    <button class="sec-btn" onclick="showSec('c1','toolkit')">Dissertation Toolkit</button>
+  </div>
+  <div class="content">
+
+    <!-- TL;DR -->
+    <div id="c1-tldr" class="section active">
+      <div class="sec-title"><span class="num">01</span> Executive TL;DR</div>
+
+      <div class="tldr-pitch">
+        <div class="pitch-label">⚡ 60-second pitch</div>
+        <p>Political science is the <strong>systematic, evidence-based study of how collective choices are made</strong> and who prevails in making them. Unlike philosophy or history, it aims to produce generalizable knowledge — not just describe events, but explain why they happen. Its methods are deliberately diverse (formal, qualitative, quantitative) because politics itself is diverse. The course's core claim: to study politics rigorously, you need shared tools — <strong>concepts, theories, and variables</strong> — and a clear distinction between what <em>is</em> (positive) and what <em>ought to be</em> (normative).</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>1.1 — What is Politics?</h3>
+        <p>The course opens with Lasswell's famous definition: politics is about <strong>"who gets what, when and how."</strong> This is deliberately broad. Politics is not just elections or governments — it is any process by which <strong>collective choices are made</strong> that have a lasting impact on the life of a community. This includes the state, institutions, laws, international agreements, redistributive policies, and the conflicts these generate.</p>
+        <p>What makes political science a <em>science</em> is not its object (other disciplines also study politics) but its method: the deliberate pursuit of generalizable, evidence-based knowledge. As Almond (1996) puts it, political science aims to produce "inferences or generalizations about politics drawn from evidence." This distinguishes it from political philosophy (normative) or political commentary (descriptive without theory).</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>1.2 — The Diversity of Methods</h3>
+        <p>Political science borrows from every social science. Its methods fall into three families. <strong>Formal and mathematical</strong> methods (decision theory, game theory) model actors making rational choices under constraints — useful for understanding strategic behavior. <strong>Qualitative</strong> methods (ethnography, interviews, archival research, process-tracing) go deep into specific cases to understand mechanisms. <strong>Quantitative</strong> methods (econometrics, experiments, text-as-data, network analysis) test hypotheses across large numbers of cases.</p>
+        <p>This diversity is a strength, not a weakness — but it requires a common language. Different sub-disciplines (comparative politics, international relations, public policy, political behavior, political theory) are more or less connected to each other, but all share the same basic logic of theory-building and empirical testing.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>1.3 — The Basic Toolkit: Concepts, Theories, Variables</h3>
+        <p><strong>Concepts</strong> are the building blocks: invented categories that help us identify and distinguish phenomena (power, democracy, ideology). They are not natural objects — they are tools, and how you define them shapes what you see. <strong>Theories</strong> are sets of connected statements that derive propositions from assumptions and test them empirically. A theory is not a guess — it is a structured argument with testable implications. <strong>Variables</strong> are the measurable operationalizations of concepts: Y is what we want to explain (the outcome), X is what we think causes it.</p>
+        <p>This logic applies to both quantitative and qualitative research. Whether you are running a regression or doing an interview, you are still asking: what is my concept? what is my theory? what varies and why?</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>1.4 — Positive vs. Normative</h3>
+        <p>A crucial distinction runs through the entire course. <strong>Positive political science</strong> describes and explains the world as it is — it makes empirically testable claims. <strong>Normative political science</strong> evaluates the world and prescribes how it ought to be — it makes value judgments. The course takes an explicitly positive approach: the goal is to understand political phenomena, not to advocate for particular outcomes.</p>
+        <p>This does not mean political scientists have no values — but it means they must be transparent about when they are making empirical claims versus normative ones. Confusing the two is one of the most common errors in political analysis.</p>
+      </div>
+
+      <div class="wordcount">~580 words</div>
+    </div>
+
+    <!-- KEY DEFINITIONS -->
+    <div id="c1-defs" class="section">
+      <div class="sec-title"><span class="num">02</span> Key Definitions</div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Politics</span><span class="def-author">Harold Lasswell · 1935</span></div>
+        <div class="def-quote">Who gets what, when and how?</div>
+        <div class="def-plain"><strong>In plain words:</strong> Politics = the process of making collective choices about who gets resources, power, and rights — and how those choices are enforced. The definition is deliberately broad: it covers elections, laws, budgets, wars, and any moment where binding decisions are made for a community.</div>
+        <div class="def-source">📖 Class 1 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Political Science (definition)</span><span class="def-author">Almond · 1996</span></div>
+        <div class="def-quote">The essential object of political science [. . .] is the creation of knowledge, defined as inferences or generalizations about politics drawn from evidence.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Political science is not just describing what politicians do — it aims to produce general explanations that hold across cases. The key word is "evidence": claims must be empirically testable, not just logically plausible.</div>
+        <div class="def-source">📖 Class 1 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Concepts</span><span class="def-author">Moore &amp; Siegel · 2013</span></div>
+        <div class="def-quote">Inventions that human beings create to help them understand the world. They can generally take different values : high or low, present or absent, none or few or many, etc. Theories concern relationships among concepts.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Concepts are analytical tools, not natural facts. "Democracy" or "power" do not exist independently of how we define them. Different definitions produce different research — so the first step in any political analysis is always to define your concepts precisely.</div>
+        <div class="def-source">📖 Class 1 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Theories</span><span class="def-author">Moore &amp; Siegel · 2013</span></div>
+        <div class="def-quote">A set of statements that involve concepts. The statements comprise assumptions, propositions, corollaries and hypotheses. Typically, assumptions are asserted, propositions and corollaries are deduced from these assumptions and hypotheses are derived from these deductions and then empirically challenged.</div>
+        <div class="def-plain"><strong>In plain words:</strong> A theory is a structured argument, not a hunch. It starts from assumptions, derives predictions, and those predictions are tested against evidence. A theory that cannot be tested is not scientific — it is philosophy.</div>
+        <div class="def-source">📖 Class 1 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Variables</span><span class="def-author">Moore &amp; Siegel · 2013</span></div>
+        <div class="def-quote">Indicators we develop to measure our concepts [...] Y or y is often used to represent a concept that one wishes to explain, and X or x is often used to represent a concept that causes Y to take different values (ie, vary).</div>
+        <div class="def-plain"><strong>In plain words:</strong> Variables translate abstract concepts into measurable things. Y = what you want to explain (e.g. voter turnout). X = what you think causes it (e.g. income level). The causal arrow goes from X to Y.</div>
+        <div class="def-source">📖 Class 1 slides</div>
+      </div>
+    </div>
+
+    <!-- KEY AUTHORS -->
+    <div id="c1-authors" class="section">
+      <div class="sec-title"><span class="num">03</span> Key Authors</div>
+      <div class="block blue">
+        <div class="block-label">Authors — Class 1</div>
+        <div class="author-row">
+          <div><span class="author-name">Harold Lasswell</span><span class="author-year">1935</span></div>
+          <div class="author-info"><span class="author-thesis">Defined politics as "who gets what, when and how" — the foundational distributional definition.</span><span class="author-debate">Starting point of the course. Frames politics as a competition over resources and power, not just a procedural question.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Gabriel Almond</span><span class="author-year">1996</span></div>
+          <div class="author-info"><span class="author-thesis">Defined political science as the production of generalizable, evidence-based knowledge about politics.</span><span class="author-debate">Establishes the scientific ambition of the discipline. Used to distinguish poli-sci from normative philosophy.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Moore &amp; Siegel</span><span class="author-year">2013</span></div>
+          <div class="author-info"><span class="author-thesis">Provided the working definitions of concepts, theories, and variables used throughout the course.</span><span class="author-debate">The methodological backbone. Their framework applies equally to quantitative and qualitative research.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEBATES -->
+    <div id="c1-debates" class="section">
+      <div class="sec-title"><span class="num">04</span> Theoretical Debates</div>
+
+      <div class="debate-block">
+        <div class="debate-title">Positive vs. Normative Political Science</div>
+        <div class="debate-camps">
+          <div class="debate-camp">
+            <div class="debate-camp-label">Positive</div>
+            Describes and explains the world as it <em>is</em>. Makes empirically testable claims. Example: "Higher income is correlated with higher voter turnout." Can be confirmed or refuted with data.
+          </div>
+          <div class="debate-camp">
+            <div class="debate-camp-label">Normative</div>
+            Evaluates and prescribes how the world <em>ought to be</em>. Makes value judgments. Example: "Compulsory voting would make democracy more legitimate." Cannot be falsified — depends on prior values.
+          </div>
+        </div>
+        <div class="debate-reveals"><strong>What this reveals →</strong> The distinction is not about which is more important, but about intellectual honesty. Confusing the two is a common error: presenting a value judgment as if it were an empirical finding. The course takes a positive approach — but recognizes normative questions motivate much of the research.</div>
+      </div>
+
+      <div class="debate-block">
+        <div class="debate-title">Quantitative vs. Qualitative vs. Formal Methods</div>
+        <div class="debate-camps">
+          <div class="debate-camp">
+            <div class="debate-camp-label">Quantitative</div>
+            Tests hypotheses across many cases using statistics. Strong on generalizability. Weak on mechanisms (why does X cause Y?).
+          </div>
+          <div class="debate-camp">
+            <div class="debate-camp-label">Qualitative / Formal</div>
+            Goes deep into specific cases (or builds deductive models). Strong on mechanisms and internal validity. Weak on generalizability.
+          </div>
+        </div>
+        <div class="debate-reveals"><strong>What this reveals →</strong> The course does not privilege one method. The appropriate method depends on the research question. Good political science uses the method best suited to the claim — and is transparent about the trade-offs.</div>
+      </div>
+    </div>
+
+    <!-- EXAMPLES -->
+    <div id="c1-examples" class="section">
+      <div class="sec-title"><span class="num">05</span> Examples Bank</div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Positive vs. Normative distinction</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>Course example:</strong> Almond's definition of political science as knowledge-creation is a positive project; Plato's ideal of the perfect government is normative. The course distinguishes them explicitly from Class 1.<span>Source: Class 1 slides</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>Contemporary:</strong> The debate over ranked-choice voting in the US (2024). Claim "ranked-choice produces more representative outcomes" = empirical (testable). Claim "ranked-choice is fairer" = normative (value judgment). Both are common in public debate but must be kept distinct.<span>Mobilisable in a dissertation intro to show the distinction matters in practice</span></div></div>
+      </div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Methods diversity — same object, different tools</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>Course example:</strong> The course itself covers formal (game theory), qualitative (ethnography, process-tracing) and quantitative (econometrics, experiments) methods — all applied to political phenomena.<span>Source: Class 1 slides</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>Contemporary:</strong> Studying populism: a formal model might show when extremist parties enter; a qualitative interview study shows <em>why</em> voters feel left behind; a regression tests the correlation between economic anxiety and populist vote share. All three are needed for a complete picture.<span>Can illustrate methodological pluralism in a dissertation</span></div></div>
+      </div>
+    </div>
+
+    <!-- TOOLKIT -->
+    <div id="c1-toolkit" class="section">
+      <div class="sec-title"><span class="num">06</span> Dissertation Toolkit</div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-header">How to define a concept in an introduction</div>
+        <div class="toolkit-body">
+          <p>Always define the key terms of your dissertation subject in the first paragraph. Follow this sequence: <strong>(1) cite the working definition</strong>, (2) note any ambiguity or debate around it, (3) specify which meaning you will use.</p>
+          <div class="toolkit-formula">As [Author] ([year]) argues, "[exact quote]." For the purposes of this essay, [concept] will be understood as [your working definition].</div>
+          <div class="toolkit-example">As Lasswell (1935) argues, politics is about "who gets what, when and how." For the purposes of this essay, political competition will be understood as the structured process by which actors contest access to binding collective decision-making.</div>
+        </div>
+      </div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-header">How to introduce an author and mobilize their argument</div>
+        <div class="toolkit-body">
+          <p>Never drop a name without a thesis. Always give: <strong>author + year + one-sentence thesis + how it supports your argument</strong>.</p>
+          <div class="toolkit-formula">According to [Author] ([year]), [thesis in one sentence]. This suggests that [implication for your argument].</div>
+          <div class="toolkit-example">According to Almond (1996), the purpose of political science is to produce "inferences or generalizations about politics drawn from evidence." This suggests that any claim about political behavior must be grounded in empirical observation, not just theoretical deduction.</div>
+        </div>
+      </div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-header">Connectors for argumentation — English US academic style</div>
+        <div class="toolkit-body">
+          <div class="connector-grid">
+            <div class="connector-item"><strong>To introduce an argument:</strong> "This essay argues that…" / "The central claim is…"</div>
+            <div class="connector-item"><strong>To introduce evidence:</strong> "As X (year) demonstrates…" / "Evidence suggests…"</div>
+            <div class="connector-item"><strong>To concede and rebut:</strong> "While X argues… , Y counters that…"</div>
+            <div class="connector-item"><strong>To synthesize:</strong> "Taken together, these perspectives suggest…"</div>
+            <div class="connector-item"><strong>To signal a limit:</strong> "This argument holds, however, only if…"</div>
+            <div class="connector-item"><strong>To conclude:</strong> "In sum…" / "Ultimately…" / "The evidence thus supports…"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-header">Structure for a 2-part dissertation on Class 1 topics</div>
+        <div class="toolkit-body">
+          <p><strong>Question type:</strong> "To what extent is political science a science?"</p>
+          <p><strong>Part I:</strong> Political science displays scientific characteristics — it produces generalizable, evidence-based knowledge (Almond 1996), uses shared concepts and theories (Moore &amp; Siegel 2013), and tests hypotheses empirically.</p>
+          <p><strong>Part II:</strong> Yet its scientific status is contested — the object (politics) resists controlled experimentation, the positive/normative boundary is often blurred in practice, and methodological diversity can produce incompatible findings.</p>
+          <p><strong>Conclusion:</strong> Political science is best understood as a discipline with scientific aspirations rather than a fully unified science — its value lies in disciplined pluralism, not methodological uniformity.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /c1 -->
+
+<!-- ══════════════════════════════════════════ CLASS 2 ══ -->
+<div id="course-c2" style="display:none;">
+  <div class="course-header">
+    <div><div class="meta">Class 2 · Introduction to Political Science</div><h1>Power</h1></div>
+    <div class="badge">Cyril Benoit</div>
+  </div>
+  <div class="sec-tabs">
+    <button class="sec-btn active" onclick="showSec('c2','tldr')">Executive TL;DR</button>
+    <button class="sec-btn" onclick="showSec('c2','defs')">Key Definitions</button>
+    <button class="sec-btn" onclick="showSec('c2','authors')">Key Authors</button>
+    <button class="sec-btn" onclick="showSec('c2','debates')">Theoretical Debates</button>
+    <button class="sec-btn" onclick="showSec('c2','examples')">Examples Bank</button>
+    <button class="sec-btn" onclick="showSec('c2','toolkit')">Dissertation Toolkit</button>
+  </div>
+  <div class="content">
+
+    <!-- TL;DR -->
+    <div id="c2-tldr" class="section active">
+      <div class="sec-title"><span class="num">01</span> Executive TL;DR</div>
+
+      <div class="tldr-pitch">
+        <div class="pitch-label">⚡ 60-second pitch</div>
+        <p>Power has <strong>three faces</strong>: directive (A forces B to act), gatekeeping (controlling what reaches the agenda), and conceptual (shaping how people think). The deeper you go, the harder power is to see — and the harder to resist. Weber shows domination requires <strong>legitimacy</strong> to be stable: pure coercion breaks down. Foucault radicalizes this: power is not just repressive but <strong>productive</strong> — it creates knowledge, shapes identities, and operates through individuals rather than against them. The key insight: the most effective power is the power you don't notice.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>2.1 — The Three Faces of Power (Carpenter 2010)</h3>
+        <p><strong>Directive power</strong> is the most intuitive: A gets B to do something B would not otherwise do (Dahl 1957). It is visible, observable, behavioral — measured by who wins in actual decisions. This is the framework of pluralism (Dahl) and elite theory (Mills): the question is simply who prevails. Its limit: it only captures power when it results in observable action.</p>
+        <p><strong>Gatekeeping power</strong> is subtler: the ability to control what reaches the agenda. Some issues never become decisions because powerful actors prevent them from being raised. Schattschneider's formula is key: "organization is the mobilization of bias" — every institutional arrangement systematically favors some conflicts and suppresses others. The tobacco industry's management of the scientific agenda (Pinto 2017) is the paradigmatic contemporary case: firms shaped not just what was known, but what was even investigated.</p>
+        <p><strong>Conceptual power</strong> is the deepest: the ability to shape how people think — what categories they use, what seems natural or inevitable. Census categories, regulatory definitions, racial classifications — all reflect and reproduce power by making certain ways of seeing the world appear neutral (Carpenter 2010). Bourdieu calls these "classification struggles." Gramsci calls it hegemony. Foucault calls it knowledge/power.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>2.2 — Elitism vs. Pluralism: The American Debate</h3>
+        <p>The directive power framework generated the most influential debate in American political science. C. Wright Mills argued in <em>The Power Elite</em> (1956) that power in America was concentrated in an interlocking set of corporate, military, and political elites occupying "strategic command posts." Robert Dahl (1961) challenged this in his study of New Haven: studying actual decisions across different policy areas, he showed that different groups prevailed in different arenas — no single elite dominated everywhere. Power, Dahl concluded, is distributed pluralistically.</p>
+        <p>The debate was not just empirical but methodological: how do you study power? If you only look at decisions, you miss the issues that never get decided (gatekeeping). If you look at agenda-setting, you face the problem of proving a negative. Lukes (2005) showed that both approaches miss the deepest face: the power that shapes preferences themselves.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>2.3 — Domination and Legitimacy (Weber)</h3>
+        <p>Weber distinguishes <em>power</em> (the capacity to impose your will despite resistance) from <em>domination</em> (when commands are regularly obeyed). Domination is only stable when it is recognized as legitimate. Three ideal-types of legitimate domination: <strong>traditional</strong> (custom and habit — the monarch rules because this is how it has always been), <strong>charismatic</strong> (the exceptional personal qualities of the leader), and <strong>legal-rational</strong> (rule by formal rules and bureaucratic organizations). Modern states are primarily legal-rational: citizens obey laws, not persons.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>2.4 — Foucault: Power as Productive</h3>
+        <p>Foucault breaks with the idea that power is simply a repressive force held by some actors over others. For Foucault, power is <strong>productive</strong> — it creates knowledge, shapes subjectivities, produces the very categories through which we understand ourselves. Power operates "through" individuals rather than "against" them: the prisoner who internalizes surveillance, the student who disciplines herself, the worker who manages her own performance. The prison, the school, the hospital, the military — all are sites of what Foucault calls disciplinary power.</p>
+        <p>The implication for political analysis: looking only at who gives orders and who obeys misses the pervasive, decentralized ways power shapes what is thinkable, sayable, and doable. "Its success is proportional to its ability to hide its own mechanisms."</p>
+      </div>
+
+      <div class="wordcount">~680 words</div>
+    </div>
+
+    <!-- KEY DEFINITIONS -->
+    <div id="c2-defs" class="section">
+      <div class="sec-title"><span class="num">02</span> Key Definitions</div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Directive Power</span><span class="def-author">Carpenter · 2010</span></div>
+        <div class="def-quote">Power exists [. . .] in the broad formal authority to direct the behaviour of others.</div>
+        <div class="def-plain"><strong>In plain words:</strong> The most intuitive face of power — someone formally authorized to tell others what to do. A boss, a state, a regulator.</div>
+        <div class="def-source">📖 Class 2 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Power (classical definition)</span><span class="def-author">Dahl · 1957</span></div>
+        <div class="def-quote">A has power over B to the extent that he can get B to do something that B would not otherwise do.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Power = changing someone's behavior against their initial inclination. Key word: "would not otherwise do." If B was going to do it anyway, A has no power over that action. This definition focuses on observable, behavioral outcomes — who wins in actual decisions.</div>
+        <div class="def-source">📖 Class 2 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Gatekeeping Power</span><span class="def-author">Carpenter · 2010</span></div>
+        <div class="def-quote">[Power exists] as an ability to define what sorts of problems, debates and agendas structure human activity (gatekeeping power).</div>
+        <div class="def-plain"><strong>In plain words:</strong> The 2nd face of power — controlling what gets on the agenda, not just who wins once it does. The most powerful move is preventing an issue from being raised at all.</div>
+        <div class="def-source">📖 Class 2 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Mobilization of Bias</span><span class="def-author">Schattschneider · 1960</span></div>
+        <div class="def-quote">All forms of political organization have a bias in favor of the exploitation of some kinds of conflict and the suppression of others because organization is the mobilization of bias. Some issues are organized into politics while others are organized out.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Every institution has a built-in tilt. Parliament was designed to handle some questions (legislation) and not others (revolutionary redistribution). The structure itself is a form of power — before anyone even makes a decision.</div>
+        <div class="def-source">📖 Class 2 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Conceptual Power</span><span class="def-author">Carpenter · 2010</span></div>
+        <div class="def-quote">[Power exists] as an ability to shape the content and structure of human cognition itself.</div>
+        <div class="def-plain"><strong>In plain words:</strong> The 3rd and deepest face — controlling not just decisions or agendas, but the very categories people use to think. If you define what counts as "crime," "health," or "terrorism," you shape what gets treated as a problem requiring a political solution.</div>
+        <div class="def-source">📖 Class 2 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Ignorance Production</span><span class="def-author">Pinto · 2017</span></div>
+        <div class="def-quote">Industrial interests have reshaped the epistemic aims of traditional scientific practices, turning them into mechanisms of ignorance production.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Gatekeeping applied to science. Firms don't just lobby for favorable regulations — they actively shape what scientific questions get asked, what counts as credible evidence, and what risks are deemed uncertain. The tobacco industry is the paradigm case.</div>
+        <div class="def-source">📖 Class 2 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Domination (Weber)</span><span class="def-author">Weber · 1978</span></div>
+        <div class="def-quote">Probability that a command with a given specific content will be obeyed by a given group of persons.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Domination is not about who has the most weapons — it is about the probability of being obeyed. A king who must use violence to enforce every order is in a weaker position than a state whose citizens obey automatically. That automatic obedience comes from legitimacy.</div>
+        <div class="def-source">📖 Class 2 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Domination (Foucault)</span><span class="def-author">Foucault · 1987</span></div>
+        <div class="def-quote">The relations of power are fixed in such a way that they are perpetually asymmetrical and the margin of liberty is extremely limited.</div>
+        <div class="def-plain"><strong>In plain words:</strong> For Foucault, domination is a pathological extreme of power — when the asymmetry is frozen, leaving no room for resistance or movement. Normal power relations leave some space for agency; domination closes it off entirely.</div>
+        <div class="def-source">📖 Class 2 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Power as Productive (Foucault)</span><span class="def-author">Foucault · 1980, via Lukes 2005</span></div>
+        <div class="def-quote">[Power] traverses and produces things, it induces pleasure, forms of knowledge, produces discourse.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Power is not just a negative force that represses — it actively creates. It produces knowledge (what counts as scientific), discourse (what can be said), and subjects (who we are). This is why you cannot escape it by "removing" those in authority — power is distributed throughout all social relations.</div>
+        <div class="def-source">📖 Class 2 slides</div>
+      </div>
+    </div>
+
+    <!-- KEY AUTHORS -->
+    <div id="c2-authors" class="section">
+      <div class="sec-title"><span class="num">03</span> Key Authors</div>
+      <div class="block blue">
+        <div class="block-label">Authors — Class 2</div>
+        <div class="author-row">
+          <div><span class="author-name">Daniel Carpenter</span><span class="author-year">2010</span></div>
+          <div class="author-info"><span class="author-thesis">Provided the three-face framework: directive, gatekeeping, and conceptual power.</span><span class="author-debate">The organizing architecture of Class 2. Mobilize to structure any essay on power.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Robert Dahl</span><span class="author-year">1957 / 1961</span></div>
+          <div class="author-info"><span class="author-thesis">"A has power over B to the extent he can get B to do something B would not otherwise do." Pluralist: power is dispersed, not concentrated in a ruling elite (Who Governs? 1961).</span><span class="author-debate">Counter-argument to Mills. Represents the pluralist tradition — power measurable through actual decisions.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">C. Wright Mills</span><span class="author-year">1956</span></div>
+          <div class="author-info"><span class="author-thesis">Power in America is concentrated in an interlocking elite of corporate, military, and political leaders (The Power Elite).</span><span class="author-debate">Elitist tradition. Challenged by Dahl. Shows directive power analysis at work.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">E.E. Schattschneider</span><span class="author-year">1960</span></div>
+          <div class="author-info"><span class="author-thesis">"Organization is the mobilization of bias" — all political institutions suppress some conflicts and amplify others.</span><span class="author-debate">Foundation of gatekeeping power concept. Essential for any argument about agenda-setting.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Max Weber</span><span class="author-year">1978</span></div>
+          <div class="author-info"><span class="author-thesis">Domination requires legitimacy; three ideal-types: traditional, charismatic, legal-rational.</span><span class="author-debate">Bridges power and institutional stability. Legal-rational domination explains why modern bureaucratic states are obeyed without constant coercion.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Michel Foucault</span><span class="author-year">1975 / 1980</span></div>
+          <div class="author-info"><span class="author-thesis">Power is productive, not just repressive; operates through individuals, not just over them; inseparable from knowledge.</span><span class="author-debate">Radical departure from behavioral definitions of power. Mobilize to argue that the deepest power shapes preferences themselves — the "third face" extended.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Bachrach &amp; Baratz</span><span class="author-year">1962</span></div>
+          <div class="author-info"><span class="author-thesis">Identified the "second face" of power: non-decision-making, the ability to prevent issues from reaching the agenda.</span><span class="author-debate">The bridge between Dahl's behavioral approach and Foucault's cognitive approach.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEBATES -->
+    <div id="c2-debates" class="section">
+      <div class="sec-title"><span class="num">04</span> Theoretical Debates</div>
+
+      <div class="debate-block">
+        <div class="debate-title">Elitism vs. Pluralism — Who Holds Power in America?</div>
+        <div class="debate-camps">
+          <div class="debate-camp">
+            <div class="debate-camp-label">Mills (Elitism) · 1956</div>
+            Power is concentrated in an interlocking corporate-military-political elite. They "occupy the strategic command posts" of society. Ordinary citizens have no meaningful influence. The appearance of democratic choice masks real concentration.
+          </div>
+          <div class="debate-camp">
+            <div class="debate-camp-label">Dahl (Pluralism) · 1961</div>
+            Study of New Haven shows different actors prevail on different issues. No single elite dominates all policy areas. Power is dispersed across competing interest groups. The correct question is not "who rules?" but "who rules in what domain?"
+          </div>
+        </div>
+        <div class="debate-reveals"><strong>What this reveals →</strong> The outcome depends on method. Dahl's pluralism requires observable decisions — but Bachrach &amp; Baratz show this misses agenda control. The debate is still live: contemporary work on lobbying, media ownership, and campaign finance suggests power is more concentrated than Dahl thought, but less monolithic than Mills claimed.</div>
+      </div>
+
+      <div class="debate-block">
+        <div class="debate-title">Weber vs. Foucault — What is Domination?</div>
+        <div class="debate-camps">
+          <div class="debate-camp">
+            <div class="debate-camp-label">Weber · 1978</div>
+            Domination = probability of obedience. It requires legitimacy to be stable. Three types: traditional, charismatic, legal-rational. Power is held by identifiable actors in identifiable institutions. The state has a monopoly on legitimate violence.
+          </div>
+          <div class="debate-camp">
+            <div class="debate-camp-label">Foucault · 1975–1980</div>
+            Power is not held — it is exercised throughout social relations. It is productive, not just repressive. Domination is the extreme case where power relations freeze. The question is not "who has power?" but "how does power circulate, what does it produce?"
+          </div>
+        </div>
+        <div class="debate-reveals"><strong>What this reveals →</strong> Weber explains formal political authority (why the state is obeyed). Foucault explains how power operates outside and beneath formal authority — through norms, disciplines, categories. Both are needed: one to analyze institutions, the other to analyze the ideological conditions that make those institutions seem natural.</div>
+      </div>
+    </div>
+
+    <!-- EXAMPLES -->
+    <div id="c2-examples" class="section">
+      <div class="sec-title"><span class="num">05</span> Examples Bank</div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Directive Power</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>EU lobbying (Chalmers &amp; Macedo 2021):</strong> Firms that spend more on lobbying achieve measurably better regulatory outcomes (higher Return on Assets). Directive power operationalized through observable outcomes.<span>Source: Class 2 slides</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>Trump executive orders (2025):</strong> Day-one executive orders on immigration, federal workforce, and DEI programs — directive power at its most visible: formal authority used to change behavior immediately.<span>Contemporary illustration of Dahl's definition</span></div></div>
+      </div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Gatekeeping Power</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>Tobacco industry (Pinto 2017):</strong> Firms funded "doubt campaigns," created echo chambers of friendly scientists, and attacked unfavorable studies — keeping health risks off the regulatory agenda for decades.<span>Source: Class 2 slides — exam-safe example</span></div></div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>Presidential veto (Cameron 2000):</strong> The US president shapes legislation not just by vetoing but by the credible threat of a veto — Congress pre-emptively modifies bills to avoid it. Power exercised without being used.<span>Source: Class 2 slides — exam-safe example</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>Elon Musk / X (Twitter) 2022–2025:</strong> After acquisition, reinstatement of banned accounts, dismissal of trust &amp; safety teams, and algorithmic changes redefined what speech is amplified. Classic gatekeeping: controlling what enters public debate at scale.<span>Contemporary illustration of Schattschneider's mobilization of bias</span></div></div>
+      </div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Conceptual Power</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>Census categories (Scott 1998):</strong> How states categorize populations (by race, occupation, religion) shapes who is visible to power, who receives benefits, who is a target of policy — and who internalizes those categories as natural.<span>Source: Class 2 slides</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>Meta / TikTok algorithms (2020–2025):</strong> Algorithmic amplification of outrage and identity content shapes not just what people see, but what they believe is "normal" political opinion. Conceptual power at unprecedented scale — shaping cognition without any direct command.<span>Strongest contemporary illustration of Carpenter/Foucault's conceptual power</span></div></div>
+      </div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Weber's Three Types of Domination</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>Traditional:</strong> Absolute monarchy — Louis XIV obeys the tradition of divine right while also embodying it. <strong>Charismatic:</strong> Early Nazi movement — Hitler's authority rested on perceived personal mission, not rules. <strong>Legal-rational:</strong> Modern EU bureaucracy — authority derives from treaties and procedures, not persons.<span>Source: Class 2 slides — three cases for each type</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>Putin's Russia (2000–2025):</strong> Started legal-rational (constitutional president), acquired charismatic elements (national savior narrative), now combines both with suppression of traditional checks. A live case of Weber's types in tension.<span>Illustrates how the three types mix and transform in practice</span></div></div>
+      </div>
+    </div>
+
+    <!-- TOOLKIT -->
+    <div id="c2-toolkit" class="section">
+      <div class="sec-title"><span class="num">06</span> Dissertation Toolkit</div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-header">Structuring an essay on Power — 3-part plan</div>
+        <div class="toolkit-body">
+          <p><strong>Question type:</strong> "Is power always visible?"</p>
+          <p><strong>Part I — The visible face:</strong> Directive power (Dahl 1957, Carpenter 2010) — power as observable behavioral change. Measurable, but limited to open conflicts.</p>
+          <p><strong>Part II — The hidden face:</strong> Gatekeeping power (Schattschneider 1960, Bachrach &amp; Baratz 1962) — controlling the agenda. The issues that never become decisions.</p>
+          <p><strong>Part III — The invisible face:</strong> Conceptual power (Carpenter 2010) and Foucault (1980) — shaping cognition itself. The power that makes alternatives seem unthinkable.</p>
+          <p><strong>Conclusion:</strong> The most effective power is the least visible. A democratic system can simultaneously produce pluralist outcomes (Dahl) and reproduce deep structural inequalities (Foucault) — the two are not contradictory.</p>
+        </div>
+      </div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-header">Exam-ready author mobilization — Power</div>
+        <div class="toolkit-body">
+          <p><strong>To open on power:</strong> <em>"Power is a foundational concept in political analysis: as Carpenter (2010) argues, it takes three distinct forms — directive, gatekeeping, and conceptual — each progressively harder to observe and challenge."</em></p>
+          <p><strong>To introduce gatekeeping:</strong> <em>"Schattschneider (1960) reminds us that 'organization is the mobilization of bias' — every institution, including democratic ones, systematically organizes some issues into politics and others out."</em></p>
+          <p><strong>To bring in Foucault:</strong> <em>"Foucault (1980) pushes further: power is not simply repressive but productive, operating 'through' individuals rather than 'against' them. Its success, as he noted, 'is proportional to its ability to hide its own mechanisms.'"</em></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /c2 -->
+
+<!-- ══════════════════════════════════════════ CLASS 3 ══ -->
+<div id="course-c3" style="display:none;">
+  <div class="course-header">
+    <div><div class="meta">Class 3 · Introduction to Political Science</div><h1>Ideas</h1></div>
+    <div class="badge">Cyril Benoit</div>
+  </div>
+  <div class="sec-tabs">
+    <button class="sec-btn active" onclick="showSec('c3','tldr')">Executive TL;DR</button>
+    <button class="sec-btn" onclick="showSec('c3','defs')">Key Definitions</button>
+    <button class="sec-btn" onclick="showSec('c3','authors')">Key Authors</button>
+    <button class="sec-btn" onclick="showSec('c3','debates')">Theoretical Debates</button>
+    <button class="sec-btn" onclick="showSec('c3','examples')">Examples Bank</button>
+    <button class="sec-btn" onclick="showSec('c3','toolkit')">Dissertation Toolkit</button>
+  </div>
+  <div class="content">
+
+    <div id="c3-tldr" class="section active">
+      <div class="sec-title"><span class="num">01</span> Executive TL;DR</div>
+
+      <div class="tldr-pitch">
+        <div class="pitch-label">⚡ 60-second pitch</div>
+        <p>Do ideas matter, or are they just rationalizations of material interests? This class argues: <strong>both matter, in dynamic interaction</strong>. Ideology is a coherent, prescriptive and empirical set of ideas about politics — four main types have structured Western democracies: conservatism, liberalism, Christian democracy, socialism. The "end of ideology" thesis (Bell, Fukuyama) has been repeatedly proven wrong — ideological conflict persists, evolves, and returns. Hall's concept of <strong>policy paradigm</strong> shows how ideas structure what policymakers see as possible, explaining why major policy changes (Keynesianism → monetarism) involve not just new tools but new ways of seeing the problem.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>3.1 — Do Ideas Matter?</h3>
+        <p>The class opens with a real tension. For Marxists, ideas are superstructure — they reflect material interests and class positions, serving as ideological cover for the dominant class (Althusser 1970). For rational choice theorists, ideas are at best "focal points" — shared reference points that help self-interested actors coordinate, but with no independent causal role. Against both, a growing body of research (Campbell 2002, Hay 2002) argues that ideas independently shape political outcomes: "Ideas provide the point of mediation between actors and their environment" (Hay 2002). You cannot derive policy preferences from material interests alone — actors need interpretive frameworks to understand what their interests even are.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>3.2 — Defining Ideology</h3>
+        <p>Ideology, according to Newton &amp; van Deth (2010), is "a more or less systematic, well-developed and comprehensive set of ideas about politics consisting of both (empirical) statements about what is, and (prescriptive) statements about what ought to be." Four features qualify a set of ideas as an ideology: <strong>complexity and abstraction</strong> (a systematic worldview, not just opinions), <strong>empirical explanation</strong> (a claim to explain the world), <strong>normative prescription</strong> (a vision of what good government looks like), and <strong>a plan for action</strong> (beliefs about how political goals should be achieved).</p>
+        <p>The four main ideologies that structured Western political competition in the 20th century: <strong>conservatism</strong> (preserve existing institutions, pessimistic view of human nature, inequality as natural), <strong>liberalism</strong> (limited state, individual rights, free market, separation of powers), <strong>Christian democracy</strong> (natural law, family and community over class, subsidiarity), <strong>socialism/social democracy</strong> (equality, mixed economy, redistribution).</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>3.3 — The End of Ideology and Its Returns</h3>
+        <p>From the 1960s onward, Bell (1960) and Lipset (1960) argued that Western democracies had reached a post-ideological consensus around liberalism, democracy, and the welfare state. Fukuyama (1992) extended this after the Cold War: Western liberal democracy had definitively triumphed. The argument: technical expertise, not grand ideological battles, would solve modern governance problems.</p>
+        <p>This thesis has been repeatedly challenged by reality: the persistence of traditional ideologies, the emergence of new ones (environmentalism, populism), the return of nationalist and socialist alternatives after the 2008 financial crisis. The rise of populism is particularly interesting: is it a symptom of the end of ideology (rejection of all established frameworks) or a new ideological matrix in the making?</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>3.4 — Hall's Policy Paradigm: Ideas in Action</h3>
+        <p>Peter Hall (1993) offers the most influential account of how ideas shape policy outcomes. A <strong>policy paradigm</strong> is the broad interpretive framework within which policymakers work — it defines what problems exist, what solutions are legitimate, and what is even thinkable. The shift from Keynesianism to monetarism in the 1970s–1980s is the paradigm case: it was not just a change in policy instruments, but a "third-order change" — a transformation in the very ideas that structured what counted as an economic problem and what counted as a solution. Monetarism did not win because it was empirically better; it won because stagflation discredited Keynesian predictions, opening a window for a new interpretive framework.</p>
+      </div>
+
+      <div class="wordcount">~640 words</div>
+    </div>
+
+    <div id="c3-defs" class="section">
+      <div class="sec-title"><span class="num">02</span> Key Definitions</div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Ideology</span><span class="def-author">Newton &amp; van Deth · 2010</span></div>
+        <div class="def-quote">A more or less systematic, well-developed and comprehensive set of ideas about politics consisting of both (empirical) statements about what is, and (prescriptive) statements about what ought to be.</div>
+        <div class="def-plain"><strong>In plain words:</strong> An ideology is not just a set of opinions — it is a structured, coherent system that both describes reality AND prescribes what should be done. The combination of empirical claims (this is how the economy works) and normative prescriptions (this is what the state should do) is what distinguishes ideology from mere preference.</div>
+        <div class="def-source">📖 Class 3 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Ideas</span><span class="def-author">Parsons · 2002</span></div>
+        <div class="def-quote">Claims about descriptions of the world, causal relationships, or the normative legitimacy of certain actions.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Ideas are narrower and more flexible than ideology. They include factual beliefs ("trade deficits are harmful"), causal theories ("raising minimum wage increases unemployment"), and normative judgments ("redistribution is just"). They operate at a medium level — between raw interests and full-blown ideological systems.</div>
+        <div class="def-source">📖 Class 3 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Ideas as Mediation</span><span class="def-author">Hay · 2002</span></div>
+        <div class="def-quote">Ideas provide the point of mediation between actors and their environment.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Actors don't respond directly to the "objective" world — they respond to their interpretation of it. Ideas are the interpretive lens. Two countries facing the same economic crisis may respond differently because their policymakers frame the problem through different ideas about what is causing it and what is legitimate to do.</div>
+        <div class="def-source">📖 Class 3 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">End of Ideology</span><span class="def-author">Wolfe · 2000 (summarizing Bell/Lipset)</span></div>
+        <div class="def-quote">Grand passions over ideas were exhausted [. . .] we would require technical expertise to solve our problems.</div>
+        <div class="def-plain"><strong>In plain words:</strong> The argument (Bell 1960, Lipset 1960) that post-WWII liberal democracies had settled their fundamental ideological disagreements and entered a technocratic phase. Politics becomes management, not ideology. The class uses this as a foil — empirically, ideology has not ended.</div>
+        <div class="def-source">📖 Class 3 slides</div>
+      </div>
+    </div>
+
+    <div id="c3-authors" class="section">
+      <div class="sec-title"><span class="num">03</span> Key Authors</div>
+      <div class="block blue">
+        <div class="block-label">Authors — Class 3</div>
+        <div class="author-row">
+          <div><span class="author-name">Newton &amp; van Deth</span><span class="author-year">2010</span></div>
+          <div class="author-info"><span class="author-thesis">Defined ideology with four features (complexity, empirical explanation, normative prescription, plan for action) and identified the four main democratic ideologies.</span><span class="author-debate">The definitional backbone of Class 3. Use for any question requiring a definition of ideology.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Peter Hall</span><span class="author-year">1993</span></div>
+          <div class="author-info"><span class="author-thesis">Policy paradigm concept: ideas structure what policymakers see as problems and solutions. Keynesianism → monetarism is a "third-order change" — a paradigm shift, not just policy adjustment.</span><span class="author-debate">Key empirical case for ideas having independent causal power. Essential for any argument about ideational change.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Colin Hay</span><span class="author-year">2002</span></div>
+          <div class="author-info"><span class="author-thesis">"Ideas provide the point of mediation between actors and their environment." Ideas neither determine outcomes (idealism) nor are epiphenomenal (materialism) — they interact with material factors.</span><span class="author-debate">The nuanced middle position between Marxist materialism and pure idealism. Most defensible in an exam.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Daniel Bell / Fukuyama</span><span class="author-year">1960 / 1992</span></div>
+          <div class="author-info"><span class="author-thesis">Bell: "end of ideology" after WWII. Fukuyama: "end of history" — liberal democracy's final triumph after Cold War.</span><span class="author-debate">The foil. Mobilize to show how the "end of ideology" thesis underestimated the persistence and return of ideological conflict.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Parsons</span><span class="author-year">2002</span></div>
+          <div class="author-info"><span class="author-thesis">Defined ideas as "claims about descriptions of the world, causal relationships, or the normative legitimacy of certain actions."</span><span class="author-debate">Provides the working definition of ideas (as distinct from ideology). Use for precision.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="c3-debates" class="section">
+      <div class="sec-title"><span class="num">04</span> Theoretical Debates</div>
+
+      <div class="debate-block">
+        <div class="debate-title">Materialism vs. Idealism — Do Ideas Have Independent Causal Power?</div>
+        <div class="debate-camps">
+          <div class="debate-camp">
+            <div class="debate-camp-label">Materialism (Marx / Althusser)</div>
+            Ideas are superstructure — they reflect and legitimize material interests. The real drivers of politics are class, property, and economic structures. Ideas are "a mere rhetorical distraction" or ideological cover. Althusser (1970): the ideological state apparatus maintains capitalist domination.
+          </div>
+          <div class="debate-camp">
+            <div class="debate-camp-label">Idealism (Weber / Hall / Hay)</div>
+            Ideas independently shape outcomes. Weber: Protestant ethics drove capitalism — not the reverse. Hall (1993): paradigm shifts change what policymakers can even conceive of doing. Hay (2002): ideas mediate between actors and environment — you cannot derive preferences from interests alone.
+          </div>
+        </div>
+        <div class="debate-reveals"><strong>What this reveals →</strong> The current consensus (Hay 2002) is a synthesis: ideas and material factors are in dynamic interaction. Neither fully determines the other. This is the most defensible position in a dissertation — pure materialism cannot explain why identical material conditions produce different policies; pure idealism cannot explain why some ideas win and others lose.</div>
+      </div>
+
+      <div class="debate-block">
+        <div class="debate-title">End of Ideology vs. Return of Ideology</div>
+        <div class="debate-camps">
+          <div class="debate-camp">
+            <div class="debate-camp-label">End of ideology thesis (Bell 1960, Fukuyama 1992)</div>
+            Post-WWII consensus on liberal democracy, welfare state, mixed economy. Cold War's end = ideological battle settled. Future politics = technical problem-solving, not ideological conflict. "Grand passions over ideas were exhausted."
+          </div>
+          <div class="debate-camp">
+            <div class="debate-camp-label">Return of ideology (empirical evidence)</div>
+            Rise of Green politics, religious fundamentalism, populism, nationalism. 2008 crisis reignited socialist alternatives. Increasing ideological polarization in the US (Lupton et al. 2017). Vaccine hesitancy correlates with ideology (Baumgaertner 2018). Ideology is back — if it ever left.
+          </div>
+        </div>
+        <div class="debate-reveals"><strong>What this reveals →</strong> The "end of ideology" thesis confused the temporary exhaustion of mid-century ideological passions with a permanent structural change. Ideology did not end — it mutated. New cleavages (cosmopolitan vs. nationalist, green vs. growth) replaced old ones (capital vs. labor), but the ideological structure of politics remains.</div>
+      </div>
+    </div>
+
+    <div id="c3-examples" class="section">
+      <div class="sec-title"><span class="num">05</span> Examples Bank</div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Policy Paradigm — Ideas Shaping What is "Possible"</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>Keynesianism → Monetarism (Hall 1993):</strong> The stagflation of the 1970s discredited Keynesian predictions, opening a window for monetarist ideas (Hayek, Friedman). Not just new tools — a new definition of what the problem was (inflation, not unemployment) and what counted as a legitimate solution (central bank independence, deregulation).<span>Source: Class 3 slides — exam-safe paradigm case</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>Post-2008 austerity vs. stimulus:</strong> The same financial crisis produced opposite policy responses in the US (stimulus, TARP) and the UK/EU (austerity). Not different interests — different interpretive frameworks about what caused the crisis and what was economically legitimate. Hall's paradigm logic in action.<span>Strong contemporary illustration of how ideas mediate policy responses to the same objective shock</span></div></div>
+      </div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">End of Ideology — and its Failure</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>Consociational democracy (Lijphart 1980):</strong> Belgium and the Netherlands organized politics around ideological pillars (Catholic, Protestant, socialist, liberal) — each with its own schools, unions, newspapers, parties. Ideology structuring an entire society, not just electoral competition.<span>Source: Class 3 slides</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>Trump / MAGA as ideological phenomenon (2016–2025):</strong> Not reducible to economic interests (many Trump voters are economically diverse). Represents a coherent nationalist-populist ideological package: anti-globalism, cultural conservatism, distrust of expertise. Directly refutes Fukuyama's "end of history."<span>Strongest contemporary refutation of the end-of-ideology thesis</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>Green ideology (2010s–2020s):</strong> The emergence of green parties across Europe shows new ideological cleavages forming. Climate policy is not just a technical question — it involves deeply ideological choices about growth, intergenerational justice, and the role of the state. New ideology, not post-ideology.<span>Shows ideology mutating rather than ending</span></div></div>
+      </div>
+    </div>
+
+    <div id="c3-toolkit" class="section">
+      <div class="sec-title"><span class="num">06</span> Dissertation Toolkit</div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-header">Essay structure — "Do ideas matter in politics?"</div>
+        <div class="toolkit-body">
+          <p><strong>Part I — The materialist challenge:</strong> Marx and Althusser argue ideas are epiphenomenal — they reflect and legitimize material interests. Rational choice theorists see ideas as focal points at best. Material conditions (class, property, crisis) drive political outcomes; ideas just rationalize them.</p>
+          <p><strong>Part II — The ideational counter-evidence:</strong> Weber shows Protestant ideas produced capitalist behavior that could not be derived from material interests alone. Hall (1993) shows the Keynesian → monetarist shift was an ideational, not material, change. Hay (2002): ideas mediate between actors and context.</p>
+          <p><strong>Conclusion:</strong> Ideas matter — but in interaction with material factors, not independently of them. Parsons (2002) and Hay (2002) offer the most defensible synthesis: neither pure materialism nor pure idealism, but a dynamic relationship in which ideas structure the interpretation of material conditions.</p>
+        </div>
+      </div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-header">Exam-ready mobilization — Ideas</div>
+        <div class="toolkit-body">
+          <p><strong>To define ideology:</strong> <em>"As Newton &amp; van Deth (2010) define it, ideology is 'a more or less systematic, well-developed and comprehensive set of ideas about politics consisting of both (empirical) statements about what is, and (prescriptive) statements about what ought to be.'"</em></p>
+          <p><strong>To argue ideas have causal power:</strong> <em>"Hay (2002) argues that 'ideas provide the point of mediation between actors and their environment' — actors do not respond to objective conditions but to their interpretation of those conditions through ideational frameworks."</em></p>
+          <p><strong>To bring in Hall:</strong> <em>"Hall (1993) demonstrates this through the shift from Keynesianism to monetarism: a 'third-order change' in which not just instruments, but the very ideas defining problems and legitimate solutions were transformed."</em></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /c3 -->
+
+<!-- ══════════════════════════════════════════ CLASS 4 ══ -->
+<div id="course-c4" style="display:none;">
+  <div class="course-header">
+    <div><div class="meta">Class 4 · Introduction to Political Science</div><h1>Institutions</h1></div>
+    <div class="badge">Cyril Benoit</div>
+  </div>
+  <div class="sec-tabs">
+    <button class="sec-btn active" onclick="showSec('c4','tldr')">Executive TL;DR</button>
+    <button class="sec-btn" onclick="showSec('c4','defs')">Key Definitions</button>
+    <button class="sec-btn" onclick="showSec('c4','authors')">Key Authors</button>
+    <button class="sec-btn" onclick="showSec('c4','debates')">Theoretical Debates</button>
+    <button class="sec-btn" onclick="showSec('c4','examples')">Examples Bank</button>
+    <button class="sec-btn" onclick="showSec('c4','toolkit')">Dissertation Toolkit</button>
+  </div>
+  <div class="content">
+
+    <div id="c4-tldr" class="section active">
+      <div class="sec-title"><span class="num">01</span> Executive TL;DR</div>
+
+      <div class="tldr-pitch">
+        <div class="pitch-label">⚡ 60-second pitch</div>
+        <p>Institutions are the <strong>rules of the game</strong> — formal and informal — that simultaneously constrain and enable human action. The same interests and cleavages can produce radically different political outcomes depending on the institutional context (electoral systems, committee rules, constitutional structures). Three schools disagree on <em>why</em> institutions exist and <em>how</em> they change: <strong>rational choice</strong> (they solve collective action problems), <strong>historical</strong> (they are inherited from the past and change through critical junctures and path dependency), <strong>sociological</strong> (they embody cultural norms and frames). All three agree: <strong>institutions shape outcomes independently of individual preferences</strong>.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>4.1 — What are Institutions?</h3>
+        <p>North's (1990) definition is the most cited: institutions are "the humanly devised constraints that structure political, economic and social interaction" — comprising both informal constraints (customs, norms, taboos) and formal rules (constitutions, laws, property rights). The key word is "humanly devised": institutions are not natural, they are built and can be changed. Moe (2015) extends this: political institutions are not just formal government structures but the entire set of arrangements surrounding and maintaining them. Hodgson (2006) adds the enabling dimension: "institutions both constrain and enable behavior" — the rules of language don't just limit what we can say, they make communication possible.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>4.2 — Old Institutionalism, Behavioralism, and the New Institutionalism</h3>
+        <p><strong>Old institutionalism</strong> (≈1900–1950) focused on formal government structures and constitutional arrangements — descriptive, largely a-theoretical. <strong>Behavioralism</strong> (1950s–1960s) swung to the opposite extreme: only observable individual behavior matters; institutions are just arenas in which actors play out their pre-existing preferences. <strong>New institutionalism</strong> (from the 1980s) restored institutions to the center, but treated them as "dynamic political configurations that affect the mobilization of interests" (Immergut 2021) — not just legal containers, but active shapers of preferences and outcomes. Shepsle's key insight: the stability of collective decisions in legislatures is explained by institutional structure, not just individual preferences — "structure-induced equilibrium."</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>4.3 — Three Variants of New Institutionalism</h3>
+        <p><strong>Rational choice institutionalism</strong> sees institutions as voluntary agreements that solve collective action problems — they emerge because actors benefit from having predictable rules. Change occurs when preferences shift or external shocks make old arrangements inefficient. <strong>Historical institutionalism</strong> emphasizes that institutions are inherited from the past — they generate path dependency (current choices are constrained by past choices) and change through critical junctures (moments of discontinuity when new paths become possible). <strong>Sociological institutionalism</strong> focuses on how institutions embody cultural norms, cognitive frames, and taken-for-granted assumptions — actors follow rules not because it maximizes utility but because it is "what is done here."</p>
+        <p>The three variants are not mutually exclusive — the debate has generated productive combinations. Hall &amp; Taylor (1996) note: any complete account of institutions needs elements of all three.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>4.4 — Electoral Systems as a Case Study</h3>
+        <p>Electoral rules are formal institutions that translate votes into seats. The same underlying social cleavages (class, religion, region) produce very different party systems depending on electoral rules. Winner-takes-all single-member districts (UK, US) create strong incentives for strategic voting and two-party systems. Proportional representation (Netherlands, Sweden) lowers barriers to entry and produces fragmented, multi-party systems. Same interests — completely different institutional outcomes. This is Shepsle's "structure-induced equilibrium" made visible: the rules of the game shape who can play and how.</p>
+      </div>
+
+      <div class="wordcount">~610 words</div>
+    </div>
+
+    <div id="c4-defs" class="section">
+      <div class="sec-title"><span class="num">02</span> Key Definitions</div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Institutions</span><span class="def-author">North · 1990</span></div>
+        <div class="def-quote">Institutions are the humanly devised constraints that structure political, economic and social interaction. They consist of both informal constraints (sanctions, taboos, customs, traditions, and codes of conduct), and formal rules (constitutions, laws, property rights).</div>
+        <div class="def-plain"><strong>In plain words:</strong> Institutions = the rules of the game. They are made by humans (not natural), they structure interaction (they have effects), and they operate at two levels: formal written rules AND informal unwritten norms. Note: this exact definition also appears in the economics course (North is shared between the two).</div>
+        <div class="def-source">📖 Class 4 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Political Institutions (extended definition)</span><span class="def-author">Moe · 2015</span></div>
+        <div class="def-quote">Not only "the formal structures of government" (legislatures, courts, the presidency . . .) but also the "structural arrangements surrounding" [and maintaining] them.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Political institutions are broader than the official org chart of government. They include the informal practices, norms, and power arrangements that sustain formal structures — the unwritten rules of how Congress actually operates, not just what the Constitution says.</div>
+        <div class="def-source">📖 Class 4 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Institutions: constrain and enable</span><span class="def-author">Hodgson · 2006</span></div>
+        <div class="def-quote">Institutions both constrain and enable behavior [. . .] the rules of language allow us to communicate; traffic rules help traffic to flow more easily and safely; the rule of law can increase personal safety.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Institutions are not only restrictions. They create the conditions of possibility for collective action. Without rules, markets cannot function, contracts cannot be enforced, elections cannot be held. The constraint and the enablement are two sides of the same rule.</div>
+        <div class="def-source">📖 Class 4 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Structure-Induced Equilibrium (rules define the choice set)</span><span class="def-author">Shepsle · 1983</span></div>
+        <div class="def-quote">The set of choosing agents, the manner in which their preferences may be revealed, the alternatives over which preferences are expressed, the order in which such expressions occur, and generally the way in which business is conducted.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Institutions don't just constrain choices — they define what choices are available in the first place. A legislative committee that controls the agenda determines which options ever come to a vote. The equilibrium we observe is produced by the structure of the rules, not just by the preferences of actors.</div>
+        <div class="def-source">📖 Class 4 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">New Institutionalism</span><span class="def-author">Immergut · 2021</span></div>
+        <div class="def-quote">Dynamic political configurations that affect the mobilization of interests and their adjudication in politics.</div>
+        <div class="def-plain"><strong>In plain words:</strong> The new institutionalism sees institutions as active, not passive. They don't just house political conflict — they shape who mobilizes, what interests get organized, and who wins. The same underlying interests produce different outcomes in different institutional settings.</div>
+        <div class="def-source">📖 Class 4 slides</div>
+      </div>
+    </div>
+
+    <div id="c4-authors" class="section">
+      <div class="sec-title"><span class="num">03</span> Key Authors</div>
+      <div class="block blue">
+        <div class="block-label">Authors — Class 4</div>
+        <div class="author-row">
+          <div><span class="author-name">Douglass North</span><span class="author-year">1990</span></div>
+          <div class="author-info"><span class="author-thesis">Defined institutions as "humanly devised constraints" — both formal rules and informal norms. Nobel Prize in Economics 1993.</span><span class="author-debate">The canonical definition. Shared with economics course (AJR on institutions and growth).</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Kenneth Shepsle</span><span class="author-year">1983 / 1989</span></div>
+          <div class="author-info"><span class="author-thesis">Structure-induced equilibrium: institutional rules (committee systems, procedural norms) explain the stability of legislative outcomes, not just actor preferences.</span><span class="author-debate">Foundation of rational choice institutionalism. Essential for understanding how Congress/legislative bodies work.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Hall &amp; Taylor</span><span class="author-year">1996</span></div>
+          <div class="author-info"><span class="author-thesis">Mapped the "three new institutionalisms" (rational choice, historical, sociological) — their objects, their theories of change, their limits.</span><span class="author-debate">The organizing framework for the second half of Class 4. Use to structure any comparison of institutional approaches.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Ellen Immergut</span><span class="author-year">2021</span></div>
+          <div class="author-info"><span class="author-thesis">New institutionalism treats institutions as "dynamic political configurations" — not just legal containers but active shapers of interest mobilization.</span><span class="author-debate">Clean summary definition of what distinguishes new from old institutionalism.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Geoffrey Hodgson</span><span class="author-year">2006</span></div>
+          <div class="author-info"><span class="author-thesis">"Institutions both constrain and enable behavior" — the dual function definition.</span><span class="author-debate">Essential for any argument that institutions are not just restrictions — they create possibilities.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="c4-debates" class="section">
+      <div class="sec-title"><span class="num">04</span> Theoretical Debates</div>
+
+      <div class="debate-block">
+        <div class="debate-title">Rational Choice vs. Historical vs. Sociological Institutionalism</div>
+        <div class="debate-camps">
+          <div class="debate-camp">
+            <div class="debate-camp-label">Rational Choice (Shepsle)</div>
+            Institutions = voluntary cooperative arrangements that solve collective action problems. Actors rationally design institutions to reduce transaction costs and generate predictable outcomes. Change occurs when preferences shift or when exogenous shocks make old arrangements suboptimal.
+          </div>
+          <div class="debate-camp">
+            <div class="debate-camp-label">Historical (Thelen, Hacker)</div>
+            Institutions are inherited — current choices are constrained by past ones (path dependency). Change is slow and rare, occurring through critical junctures that open new paths. Timing and sequencing matter: the order in which institutions develop shapes later outcomes.
+          </div>
+        </div>
+        <div class="debate-reveals"><strong>Sociological variant (Dobbin):</strong> Institutions embody cultural norms and cognitive frames. Actors follow rules not because it maximizes utility (rational choice) but because it is taken-for-granted, "what we do here." Change occurs through ideational and discursive shifts.</div>
+        <div class="debate-reveals"><strong>What this reveals →</strong> Each approach captures a real dimension. Rational choice explains institutional design; historical institutionalism explains persistence and path dependency; sociological explains why institutions are seen as legitimate rather than just convenient. The most powerful analyses combine all three.</div>
+      </div>
+
+      <div class="debate-block">
+        <div class="debate-title">Old Institutionalism vs. Behavioralism vs. New Institutionalism</div>
+        <div class="debate-camps">
+          <div class="debate-camp">
+            <div class="debate-camp-label">Old Institutionalism (≈1900–1950)</div>
+            Focus on formal constitutional and legal structures. Descriptive, comparative, largely a-theoretical. Institutions as the main object — but studied as fixed legal facts, not dynamic political configurations.
+          </div>
+          <div class="debate-camp">
+            <div class="debate-camp-label">Behavioralism (1950s–60s) → New Institutionalism (1980s+)</div>
+            Behavioralism: only observable individual behavior matters; institutions are arenas, not causes. New institutionalism: institutions independently shape outcomes — the "structure-induced equilibrium" proves that preferences alone cannot explain legislative stability.
+          </div>
+        </div>
+        <div class="debate-reveals"><strong>What this reveals →</strong> The field's intellectual history shows a pendulum: from institutions (old), to actors (behavioralism), back to institutions (new) — but with a crucial upgrade: new institutionalism treats institutions as dynamic and politically produced, not just as legal facts.</div>
+      </div>
+    </div>
+
+    <div id="c4-examples" class="section">
+      <div class="sec-title"><span class="num">05</span> Examples Bank</div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Institutions constrain AND enable — dual function</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>German vocational training (Hall &amp; Soskice 2001):</strong> The dual apprenticeship system constrains firms (must follow standardized training) and workers (limited early mobility) — but enables long-term specialization in high-quality manufacturing and stable career paths. Same institution = constraint + enabler simultaneously.<span>Source: Class 4 slides — exam-safe example</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>ECB independence (2010s–2020s):</strong> The mandate constrains the ECB from financing government debt (constraint). But it also enables credible long-term inflation targets that financial markets trust — making European bond markets possible (enabler). Maastricht rules as institutional dual function in practice.<span>Strong contemporary illustration of Hodgson's "constrain and enable"</span></div></div>
+      </div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Electoral Systems — same cleavages, different outcomes</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>UK vs. Netherlands (Class 4 slides):</strong> Both have class and religious cleavages. UK's first-past-the-post → two-party system, moderate catch-all parties. Netherlands' proportional representation → multi-party fragmented system, including small religious and niche parties. Same society, different rules = different party systems.<span>Source: Class 4 slides — exam-safe example</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>US Electoral College (2016, 2024):</strong> Trump won the presidency while losing the popular vote — twice. The Electoral College is an institution that translates preferences into outcomes in a non-proportional way, systematically favoring certain geographic distributions of votes. Structure-induced outcome, not preference-induced.<span>Best contemporary illustration of how electoral institutions shape outcomes independently of aggregate preferences</span></div></div>
+      </div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Path Dependency and Critical Junctures</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>US health and pension systems (Hacker 2002):</strong> The timing and sequencing of welfare state development in the US (private insurance first, public programs later) explains the persistence of a private-heavy system — not current preferences, but the path set in the early 20th century.<span>Source: Class 4 slides — historical institutionalism in action</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>Brexit (2016–2020):</strong> A critical juncture that broke decades of EU path dependency for the UK. Post-Brexit institutional design (Northern Ireland Protocol, trade agreements) shows how departing from a path creates new constraints — you don't get a blank slate, you get a new path with its own lock-in effects.<span>Illustrates both critical juncture concept AND path dependency in the new equilibrium</span></div></div>
+      </div>
+    </div>
+
+    <div id="c4-toolkit" class="section">
+      <div class="sec-title"><span class="num">06</span> Dissertation Toolkit</div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-header">Essay structure — "Do institutions determine political outcomes?"</div>
+        <div class="toolkit-body">
+          <p><strong>Part I — Yes: institutions shape outcomes independently of preferences.</strong> Shepsle (1983): structure-induced equilibrium — the stability of legislative outcomes is explained by institutional rules, not just actor preferences. Electoral systems example: same cleavages, different party systems (Class 4). Institutions define the choice set before any decision is made.</p>
+          <p><strong>Part II — Yes, but: institutions themselves are politically produced and contested.</strong> Immergut (2021): institutions are "dynamic political configurations" — they are not neutral arenas but reflect prior power distributions. Moe (2015): institutional design is itself a political act by those who benefit from the rules. Historical institutionalism: path dependency means current outcomes reflect past political battles, not current preferences.</p>
+          <p><strong>Conclusion:</strong> Institutions powerfully shape political outcomes — but they are not an independent variable. They are themselves the product of politics (power, interests, ideas). The most complete analysis requires tracking both how institutions constrain current actors AND how those institutions were politically constructed in the first place.</p>
+        </div>
+      </div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-header">Exam-ready mobilization — Institutions</div>
+        <div class="toolkit-body">
+          <p><strong>To open on institutions:</strong> <em>"As North (1990) defines them, institutions are 'the humanly devised constraints that structure political, economic and social interaction' — comprising both formal rules and informal norms. Their defining feature, as Hodgson (2006) notes, is that they simultaneously constrain and enable human action."</em></p>
+          <p><strong>To introduce structure-induced equilibrium:</strong> <em>"Shepsle (1983) demonstrates that the stability of legislative outcomes cannot be explained by preferences alone — it is 'structure-induced': the procedural rules and committee systems of Congress define what choices are available and in what order, generating equilibria that would not exist in a purely preference-driven setting."</em></p>
+          <p><strong>To distinguish the three institutionalisms:</strong> <em>"Hall &amp; Taylor (1996) identify three variants of new institutionalism: rational choice (institutions as solutions to collective action problems), historical (institutions as path-dependent legacies), and sociological (institutions as embodied cultural norms). Each captures a real dimension — the most complete analyses combine all three."</em></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /c4 -->
+
+<!-- ══════════════════════════════════════════ CLASS 5 ══ -->
+<div id="course-c5" style="display:none;">
+  <div class="course-header">
+    <div><div class="meta">Class 5 · Introduction to Political Science</div><h1>Competition</h1></div>
+    <div class="badge">Cyril Benoit</div>
+  </div>
+  <div class="sec-tabs">
+    <button class="sec-btn active" onclick="showSec('c5','tldr')">Executive TL;DR</button>
+    <button class="sec-btn" onclick="showSec('c5','defs')">Key Definitions</button>
+    <button class="sec-btn" onclick="showSec('c5','authors')">Key Authors</button>
+    <button class="sec-btn" onclick="showSec('c5','debates')">Theoretical Debates</button>
+    <button class="sec-btn" onclick="showSec('c5','examples')">Examples Bank</button>
+    <button class="sec-btn" onclick="showSec('c5','toolkit')">Dissertation Toolkit</button>
+  </div>
+  <div class="content">
+
+    <div id="c5-tldr" class="section active">
+      <div class="sec-title"><span class="num">01</span> Executive TL;DR</div>
+
+      <div class="tldr-pitch">
+        <div class="pitch-label">⚡ 60-second pitch</div>
+        <p>Political competition borrows from economics but differs fundamentally: policies are <strong>mutually exclusive</strong>, voters don't always get what they vote for, and aggregating preferences is mathematically treacherous (Condorcet, Arrow). Downs (1957) shows rational candidates converge to the <strong>median voter</strong> — but this requires symmetric distributions, complete information, and a single policy dimension. Schumpeter (1962) is more cynical: the electorate is too irrational for Downsian competition; democracy is just <strong>elite competition for votes</strong>, nothing more. In practice, competition is structured by institutions — committees, party rules, procedural norms — as much as by voter preferences.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>5.1 — Political vs. Economic Competition</h3>
+        <p>The class begins with an analogy and then systematically breaks it down. Economic competition theory (Stigler 1972) predicts that more competitors → lower prices, more efficiency. Political science borrows this logic — more parties = more competition = more representation. But the analogy breaks down in important ways. <strong>Policies are mutually exclusive</strong>: unlike markets where consumers can buy from multiple firms, only one policy can be implemented at a time. <strong>Voters don't receive what they purchase</strong>: voting for a party does not guarantee that party's policies will be implemented. <strong>More parties ≠ more competition</strong>: as parties multiply, coalition bargaining can push outcomes toward the status quo. <strong>Aggregation is mathematically hard</strong>: Condorcet's paradox shows that majority preferences can cycle even when all individual preferences are rational.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>5.2 — The Downsian Model and the Median Voter</h3>
+        <p>Anthony Downs (1957), building on Hotelling's spatial model of economic competition, shows that in a two-party system with a normally distributed electorate on a single left-right dimension, both parties will rationally converge to the position of the median voter. The candidates' sole motivation is winning office (not implementing policy) — policy is an "instrument to be used opportunistically" (Roemer 2001). The implications: electoral competition produces moderate governments, limits party leaders' ability to pursue private interests, and generates policy continuity (only changes when voter preferences shift).</p>
+        <p>The model has been under sustained empirical challenge. The assumption of a single policy dimension fails in multi-issue politics. The assumption of a symmetric distribution fails in polarized electorates. The 2024 US election, for instance, showed both parties moving away from the median rather than toward it — a direct anomaly for Downsian theory.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>5.3 — Schumpeter's Competitive Elitism</h3>
+        <p>Schumpeter (1962) offers a radically different model. He defines democracy not by its outputs or its deliberative quality, but minimally: democracy is an "institutional arrangement for arriving at political decisions in which individuals acquire the power to decide by means of a competitive struggle." The electorate is not a rational principal choosing among policy platforms — it is a mass incapable of informed judgment, susceptible to manipulation, a "stampede." Democracy is justified not because it produces good policy, but because it is a peaceful mechanism for selecting and removing elites.</p>
+        <p>Schumpeter's pessimism anticipates Arrow's impossibility theorem (1951): there is no mechanism that can aggregate individual preferences into a consistent collective preference — any voting rule violates at least one reasonable condition. This is generalized by Condorcet's paradox: three voters with perfectly rational individual preferences can produce collectively irrational cycles. The implication: "the general will" or "the will of the people" is mathematically incoherent.</p>
+      </div>
+
+      <div class="summary-section">
+        <h3>5.4 — Three Principles of Aggregation + Structured Competition</h3>
+        <p>The class identifies three alternative logics for aggregating preferences: <strong>majority rule</strong> (the option with the most votes wins — simple but vulnerable to Condorcet cycles), <strong>pluralism</strong> (seek compromise among organized interest groups — the US model with separation of powers and federalism), and <strong>collective rationality</strong> (entrust unelected experts with decisions on goals that command broad consensus — independent central banks, regulatory agencies). Each solves a different problem and creates different ones.</p>
+        <p>Finally, competition in practice is structured by institutions. In Congress, the majority party controls the floor agenda, committee assignments, and scheduling — competition is "structure-induced" (Shepsle). The same is true in non-democratic systems: in China, elite competition within the CCP is real and consequential, but it occurs within institutional constraints that prevent it from threatening the Party's monopoly.</p>
+      </div>
+
+      <div class="wordcount">~650 words</div>
+    </div>
+
+    <div id="c5-defs" class="section">
+      <div class="sec-title"><span class="num">02</span> Key Definitions</div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Democracy (conditions)</span><span class="def-author">Lipset · 1995</span></div>
+        <div class="def-quote">First, competition exists for government positions, and fair elections for public office occur at regular intervals without the use of force and without excluding any social group. Second, citizens participate in selecting their leaders and forming policies. And, third, civil and political liberties exist to ensure the integrity of political competition and participation.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Three conditions, all necessary: (1) free and fair electoral competition, (2) meaningful citizen participation, (3) civil liberties to protect the integrity of both. Any political system missing one of these is not fully democratic — even if it holds elections.</div>
+        <div class="def-source">📖 Class 5 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Downsian Model of Competition</span><span class="def-author">Roemer · 2001, summarizing Downs 1957</span></div>
+        <div class="def-quote">It portrays a competition between two candidates whose sole motivation for engaging in politics is to enjoy the power [. . .] of officeholding. Although voters care about policies, the candidates do not; for them, a policy is simply an instrument to be used opportunistically.</div>
+        <div class="def-plain"><strong>In plain words:</strong> The Downsian model assumes vote-maximizing candidates who adopt policies purely to win — not because they believe in them. Result: both parties converge to the median voter's position. This is a rational choice model — cynical about politicians, but it generates a clear prediction: centrism.</div>
+        <div class="def-source">📖 Class 5 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Democratic Method (Schumpeter)</span><span class="def-author">Schumpeter · 1962</span></div>
+        <div class="def-quote">For arriving at political decisions in which individuals acquire the power to decide by means of a competitive struggle.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Schumpeter strips democracy to its minimum: it is just a procedure for selecting leaders through competition. Nothing about the quality of deliberation, the rationality of voters, or the proximity of outcomes to "the will of the people." Democracy = peaceful, regularized elite competition. Full stop.</div>
+        <div class="def-source">📖 Class 5 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Electoral Mass (Schumpeter)</span><span class="def-author">Schumpeter, cited by Crain · 1977</span></div>
+        <div class="def-quote">Machine politicians are simply the response to the fact that the electoral mass is incapable of action other than a stampede.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Schumpeter's contempt for the electorate: voters are not rational choosers among policy platforms — they are a mass susceptible to emotional manipulation. Political machines exist precisely because rational deliberation is not what elections are about. Provocative — and empirically debated.</div>
+        <div class="def-source">📖 Class 5 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Condorcet Paradox</span><span class="def-author">Class 5 slides (Condorcet 1785)</span></div>
+        <div class="def-quote">No Condorcet winner exists — the majority prefers a to b, b to c, but also c to a. Collective preferences are intransitive even if every individual's preferences are transitive.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Even if every voter is perfectly rational (transitive preferences), majority voting among three or more options can produce cycles with no stable winner. This is not a failure of voters — it is a mathematical property of aggregation. Arrow (1951) generalized this: no voting rule satisfies all reasonable conditions simultaneously.</div>
+        <div class="def-source">📖 Class 5 slides</div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-header"><span class="def-term">Gains from Legislative Exchange</span><span class="def-author">Weingast &amp; Marshall · 1988</span></div>
+        <div class="def-quote">A huge variety of interests are represented in the legislature, and almost none is represented by a majority. For most interests to gain policy benefits, representatives with different constituents must agree to exchange support.</div>
+        <div class="def-plain"><strong>In plain words:</strong> Because no single interest group commands a majority, legislators must trade votes — "I'll support your farm subsidy if you support my highway project." This is logrolling. The legislature functions not as a market (instantaneous, anonymous) but as a structured institution for repeated exchange.</div>
+        <div class="def-source">📖 Class 5 slides</div>
+      </div>
+    </div>
+
+    <div id="c5-authors" class="section">
+      <div class="sec-title"><span class="num">03</span> Key Authors</div>
+      <div class="block blue">
+        <div class="block-label">Authors — Class 5</div>
+        <div class="author-row">
+          <div><span class="author-name">Anthony Downs</span><span class="author-year">1957</span></div>
+          <div class="author-info"><span class="author-thesis">Rational candidates converge to the median voter in a two-party, single-dimension electoral competition (An Economic Theory of Democracy).</span><span class="author-debate">The baseline model. Everything in Class 5 is either an application, extension, or critique of Downs.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Joseph Schumpeter</span><span class="author-year">1962</span></div>
+          <div class="author-info"><span class="author-thesis">Democracy = institutional arrangement for elite competition through competitive struggle. The electorate is incapable of rational deliberation. Democracy is justified procedurally, not substantively.</span><span class="author-debate">The pessimistic counterpoint to Downs. Also anticipates Arrow. Essential for any argument about democratic limits.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Seymour Lipset</span><span class="author-year">1995</span></div>
+          <div class="author-info"><span class="author-thesis">Three conditions of democracy: electoral competition, citizen participation, civil liberties.</span><span class="author-debate">The definitional anchor for democratic competition. Use to open any essay on democracy.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Kenneth Arrow</span><span class="author-year">1951</span></div>
+          <div class="author-info"><span class="author-thesis">Impossibility theorem: no voting rule can simultaneously satisfy all reasonable conditions for aggregating individual preferences into consistent collective preferences.</span><span class="author-debate">Generalizes Condorcet's paradox. Foundational for any argument about the limits of democratic aggregation.</span></div>
+        </div>
+        <div class="author-row">
+          <div><span class="author-name">Weingast &amp; Marshall</span><span class="author-year">1988</span></div>
+          <div class="author-info"><span class="author-thesis">Congress functions as a market for vote exchange — gains from legislative trade explain committee systems and logrolling.</span><span class="author-debate">Rational choice institutionalism applied to competition. Shows why legislative competition is structured, not open-market.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="c5-debates" class="section">
+      <div class="sec-title"><span class="num">04</span> Theoretical Debates</div>
+
+      <div class="debate-block">
+        <div class="debate-title">Downs vs. Schumpeter — What is Electoral Competition?</div>
+        <div class="debate-camps">
+          <div class="debate-camp">
+            <div class="debate-camp-label">Downs (1957) — Median Voter</div>
+            Rational candidates maximize votes by converging to the median voter. Policy is an instrument, not a goal. Result: moderate, centrist governments. Competition is efficient — it minimizes aggregate policy distance between government and voters.
+          </div>
+          <div class="debate-camp">
+            <div class="debate-camp-label">Schumpeter (1962) — Competitive Elitism</div>
+            Voters are not rational policy-choosers — they are a "stampede." Democracy is just a mechanism for peaceful elite competition and turnover. No convergence to median, no general will, no policy representation. Only elite circulation matters.
+          </div>
+        </div>
+        <div class="debate-reveals"><strong>What this reveals →</strong> The debate is empirical as well as theoretical. Downs predicts convergence — but polarization data shows parties diverging (especially post-2010 US). Schumpeter predicts elite manipulation — but turnout studies show voters do respond to policy. Reality may be Schumpeterian at the mass level (low information, emotional) and Downsian at the elite level (strategic positioning around the median).</div>
+      </div>
+
+      <div class="debate-block">
+        <div class="debate-title">Majority Rule vs. Pluralism vs. Collective Rationality</div>
+        <div class="debate-camps">
+          <div class="debate-camp">
+            <div class="debate-camp-label">Majority Rule</div>
+            The option with the most votes wins. Simple, direct. But vulnerable to Condorcet cycles and majority tyranny (can systematically exclude minorities).
+          </div>
+          <div class="debate-camp">
+            <div class="debate-camp-label">Pluralism / Collective Rationality</div>
+            Pluralism: seek compromise among organized groups, including minorities (US model). Collective rationality: delegate to unelected experts on technical questions with broad consensus (central banks, courts). Both sacrifice directness for stability and inclusion.
+          </div>
+        </div>
+        <div class="debate-reveals"><strong>What this reveals →</strong> There is no perfect aggregation mechanism (Arrow). The choice between majority rule, pluralism, and expert delegation is itself a political choice — reflecting different values about representation, efficiency, and who should govern. This is why institutional design is never neutral.</div>
+      </div>
+    </div>
+
+    <div id="c5-examples" class="section">
+      <div class="sec-title"><span class="num">05</span> Examples Bank</div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Median Voter Theory — tested and challenged</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>Three Downsian scenarios (Adams et al. 2020, Class 5 slides):</strong> The course presents three scenarios — convergence when distribution is symmetric, divergence when distribution is bimodal, non-convergence when parties have policy preferences. Shows the model's predictions are conditional on its assumptions.<span>Source: Class 5 slides</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>US polarization (2010–2024):</strong> The Republican and Democratic parties have moved away from each other, not toward the center. Both adopted more extreme primary bases, contradicting Downsian convergence. Shows the model fails when: (1) primaries pull candidates toward their base, (2) the electorate is bimodal not unimodal, (3) identity politics makes single-dimension modeling insufficient.<span>Direct empirical anomaly for Downs — exam-mobilisable contrast</span></div></div>
+      </div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Condorcet Paradox / Arrow's Impossibility</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>Three-voter cycle (Class 5 slides):</strong> 33% prefer a&gt;b&gt;c, 33% prefer b&gt;c&gt;a, 33% prefer c&gt;a&gt;b → majority prefers a to b, b to c, but c to a. No winner. Perfectly rational individuals, collectively irrational result.<span>Source: Class 5 slides — always cite for exam</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>French 2022 presidential election:</strong> In the first round: Macron, Le Pen, Mélenchon all received ~20%. Many Mélenchon voters preferred Macron to Le Pen (pairwise) but Le Pen to Macron (in some policy domains). The two-round system resolved the cycle institutionally — but the underlying preference cycle was real. Arrow's theorem in French politics.<span>Illustrates both Condorcet cycle and institutional resolution (two-round system = institutional design responding to aggregation problem)</span></div></div>
+      </div>
+
+      <div class="example-concept">
+        <div class="example-concept-title">Structured Competition — Institutions shaping competition</div>
+        <div class="example-row"><div class="example-icon">📖</div><div class="example-text"><strong>China CCP (Class 5 slides):</strong> Competition exists within the Party — for promotion, factional influence, policy ideas — but is controlled by institutional constraints (no opposition parties, controlled information flows). Competition shapes outcomes without being democratic.<span>Source: Class 5 slides — shows competition ≠ democracy</span></div></div>
+        <div class="example-row"><div class="example-icon">🌍</div><div class="example-text"><strong>US Senate filibuster (2021–2025):</strong> The 60-vote threshold to end debate gives a minority of 41 senators the ability to block legislation supported by a majority. Structure-induced gatekeeping: the institutional rule shapes competition more than the underlying vote distribution. Directly illustrates Schattschneider's "mobilization of bias" in a legislative setting.<span>Strongest contemporary case for structured competition overriding preference-based competition</span></div></div>
+      </div>
+    </div>
+
+    <div id="c5-toolkit" class="section">
+      <div class="sec-title"><span class="num">06</span> Dissertation Toolkit</div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-header">Essay structure — "Is the median voter theorem still relevant?"</div>
+        <div class="toolkit-body">
+          <p><strong>Part I — The model's core logic holds:</strong> Downs (1957) shows rational vote-maximizing candidates converge to the median under specific conditions. Empirically, centrist positioning did characterize many post-war Western democracies (Third Way Blair, Clinton "New Democrats").</p>
+          <p><strong>Part II — The model's assumptions fail under polarization:</strong> Bimodal electorates (US post-2010), primary systems pulling candidates toward activist bases, multi-dimensional issue spaces, and identity politics all violate Downsian assumptions. The FT 2024 analysis (cited in Class 5) shows both US parties moving away from the median.</p>
+          <p><strong>Conclusion:</strong> The median voter theorem remains a useful baseline — it identifies when centripetal forces dominate. But Schumpeter's insight is equally valid: when voters are uninformed or driven by identity rather than policy, electoral competition becomes elite competition for mobilization rather than position-taking. The two models are not competing theories but applicable to different contexts.</p>
+        </div>
+      </div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-header">Exam-ready mobilization — Competition</div>
+        <div class="toolkit-body">
+          <p><strong>To open on competition:</strong> <em>"Lipset (1995) defines democracy through three conditions — electoral competition, citizen participation, and civil liberties — making competition its institutional core. Yet how that competition functions, and whether it produces representative outcomes, remains deeply contested."</em></p>
+          <p><strong>To introduce Downs:</strong> <em>"Downs (1957), as described by Roemer (2001), portrays a competition in which 'a policy is simply an instrument to be used opportunistically' by vote-maximizing candidates — producing convergence to the median voter under symmetric conditions."</em></p>
+          <p><strong>To bring in Schumpeter as counterpoint:</strong> <em>"Schumpeter (1962) challenges this rationalist picture: democracy is merely 'an institutional arrangement for arriving at political decisions in which individuals acquire the power to decide by means of a competitive struggle' — elite competition, not deliberative policy choice."</em></p>
+          <p><strong>To bring in Condorcet:</strong> <em>"The Condorcet paradox demonstrates that even perfectly rational individual preferences can produce collectively irrational cycles — a problem generalized by Arrow's (1951) impossibility theorem, which shows no voting rule can satisfy all reasonable conditions for preference aggregation simultaneously."</em></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /c5 -->
+
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+function showCourse(id) {
+  document.querySelectorAll('[id^="course-"]').forEach(el => el.style.display = 'none');
+  document.getElementById('course-' + id).style.display = 'block';
+  document.querySelectorAll('.course-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+function showSec(course, sec) {
+  const parent = document.getElementById('course-' + course);
+  parent.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  parent.querySelectorAll('.sec-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(course + '-' + sec).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>
